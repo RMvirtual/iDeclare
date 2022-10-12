@@ -3,7 +3,11 @@ load("@rules_python//python:defs.bzl", "py_library")
 py_library(
     name = "file_system",
     srcs = glob(["*.py"]),
-    data = [],
+    data = [
+        "//config/api:environments.json",
+        "//config/api:production_credentials.json",
+        "//config/api:test_credentials.json"
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "@rules_python//python/runfiles",
