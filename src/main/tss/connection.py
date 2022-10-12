@@ -18,7 +18,7 @@ def read_consignment(consignment_reference: str) -> str:
     return response_values["result"]["importer_eori"]
 
 
-def create_consignment() -> None:
+def create_consignment(importer_eori_number: str) -> dict[str, str]:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST
 
@@ -46,7 +46,7 @@ def create_consignment() -> None:
         "consignee_city": "DUMMY",
         "consignee_postcode": "DUMMY",
         "consignee_country": "GB",
-        "importer_eori": login.graylaw_eori_number,
+        "importer_eori": importer_eori_number,
         "exporter_eori": "",
         "exporter_name": "DUMMY",
         "exporter_street_number": "DUMMY",
@@ -77,7 +77,7 @@ def create_consignment() -> None:
         json=example_data
     )
 
-    print(response.json())
+    return response.json()
 
 
 def read_declaration() -> None:

@@ -4,7 +4,14 @@ from src.main.file_system.credentials import user_credentials
 
 
 class TestTssApi(unittest.TestCase):
-    def test_should_read_consignment_eori(self):
+    def test_should_create_consignment(self) -> None:
+        eori_number = user_credentials().graylaw_eori_number
+        report = connection.create_consignment(eori_number)
+
+        self.assertEqual("SUCCESS", report["result"]["process_message"])
+        self.assertTrue(report["result"]["reference"].startswith("DEC"))
+
+    def test_should_read_consignment_eori(self) -> None:
         consignment = "DEC000000001010576"
         eori_number = connection.read_consignment(consignment)
         correct_eori_number = user_credentials().graylaw_eori_number
