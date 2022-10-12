@@ -1,0 +1,4 @@
+exports_files([
+    "test_credentials.json",
+    "production_credentials.json"
+])
