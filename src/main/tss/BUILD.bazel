@@ -1,4 +1,5 @@
 load("@rules_python//python:defs.bzl", "py_library")
+load("@python_third_party//:requirements.bzl", "requirement")
 
 py_library(
     name = "tss",
@@ -6,6 +7,7 @@ py_library(
     data = [],
     visibility = ["//visibility:public"],
     deps = [
+        requirement("requests"),
         "//src/main/file_system"
     ],
 )
