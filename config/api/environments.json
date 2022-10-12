@@ -1,0 +1,4 @@
+{
+  "TEST": "api.tsstestenv.co.uk",
+  "PROD": "api.tradersupportservice.co.uk"
+}
