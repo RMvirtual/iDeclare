@@ -2,6 +2,20 @@ import requests
 from src.main.file_system import credentials, api_environments
 
 
+def is_eori_valid(eori_number: str) -> bool:
+    dummy_declaration = create_declaration()
+    report = create_consignment(dummy_declaration, eori_number)
+
+    success = report["result"]["process_message"] == "SUCCESS"
+
+    if success:
+        cancel_consignment(report["result"]["reference"])
+
+    cancel_declaration(dummy_declaration)
+
+    return success
+
+
 def read_consignment(consignment_reference: str) -> str:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST
@@ -37,13 +51,14 @@ def cancel_consignment(dec_number: str) -> dict[str, str]:
     return response.json()
 
 
-def create_consignment(importer_eori_number: str) -> dict[str, str]:
+def create_consignment(
+        ens_number: str, importer_eori_number: str) -> dict[str, str]:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST
 
     example_data = {
         "op_type": "create",
-        "declaration_number": "ENS000000000405352",
+        "declaration_number": ens_number,
         "consignment_number": "",
         "goods_description": "DUMMY TO CHECK EORI",
         "trader_reference": "",
