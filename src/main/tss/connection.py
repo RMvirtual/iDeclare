@@ -2,6 +2,21 @@ import requests
 from src.main.file_system import credentials, api_environments
 
 
+def read_consignment() -> None:
+    login = credentials.user_credentials()
+    environment = api_environments.environments().TEST
+
+    response = requests.get(
+        url="https://" + environment
+            + "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
+        auth=(login.user_name, login.password),
+        params="reference=DEC000000001010576"
+            + "&fields=importer_eori"
+    )
+
+    print(response.text)
+
+
 def create_consignment() -> None:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST

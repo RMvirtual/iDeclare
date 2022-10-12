@@ -4,7 +4,7 @@ from src.main.tss import connection
 
 class TestTssApiConnection(unittest.TestCase):
     def test_should_connect_to_tss(self):
-        print(connection.create_consignment())
+        print(connection.read_consignment())
         self.fail("DUMMY FAIL FOR TSS CONNECTION")
 
 
