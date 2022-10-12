@@ -4,6 +4,10 @@ from src.main.file_system.credentials import user_credentials
 
 
 class TestTssApi(unittest.TestCase):
+    def test_should_create_declaration(self) -> None:
+        ens_reference = connection.create_declaration()
+        self.assertTrue(ens_reference.startswith("ENS"))
+
     def test_should_create_consignment(self) -> None:
         eori_number = user_credentials().graylaw_eori_number
         report = connection.create_consignment(eori_number)

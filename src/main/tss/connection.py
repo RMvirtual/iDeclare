@@ -129,4 +129,6 @@ def create_declaration() -> str:
         json=example_data
     )
 
-    print(response.text)
+    response_values = response.json()
+
+    return response_values["result"]["reference"]
