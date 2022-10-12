@@ -8,6 +8,11 @@ class TestTssApi(unittest.TestCase):
         ens_reference = connection.create_declaration()
         self.assertTrue(ens_reference.startswith("ENS"))
 
+    def test_should_cancel_declaration(self) -> None:
+        ens_reference = connection.create_declaration()
+        report = connection.cancel_declaration(ens_reference)
+        self.assertEqual("SUCCESS", report["result"]["process_message"])
+
     def test_should_create_consignment(self) -> None:
         eori_number = user_credentials().graylaw_eori_number
         report = connection.create_consignment(eori_number)

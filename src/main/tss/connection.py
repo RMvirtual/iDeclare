@@ -36,6 +36,7 @@ def cancel_consignment(dec_number: str) -> dict[str, str]:
 
     return response.json()
 
+
 def create_consignment(importer_eori_number: str) -> dict[str, str]:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST
@@ -110,7 +111,26 @@ def read_declaration() -> None:
             + "&fields=status,arrival_port,seal_number,route,carrier_eori"
     )
 
-    print(response.text)
+    return response.json()
+
+
+def cancel_declaration(ens_number: str) -> dict[str, str]:
+    login = credentials.user_credentials()
+    environment = api_environments.environments().TEST
+
+    example_data = {
+        "op_type": "cancel",
+        "declaration_number": ens_number
+    }
+
+    response = requests.post(
+        url="https://" + environment
+            + "/api/x_fhmrc_tss_api/v1/tss_api/headers",
+        auth=(login.user_name, login.password),
+        json=example_data
+    )
+
+    return response.json()
 
 
 def create_declaration() -> str:
