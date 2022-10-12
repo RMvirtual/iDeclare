@@ -7,6 +7,7 @@ from src.main.file_system import runfiles
 class Credentials:
     user_name: str = ""
     password: str = ""
+    graylaw_eori_number: str = ""
 
 
 def user_credentials() -> Credentials:
@@ -15,6 +16,7 @@ def user_credentials() -> Credentials:
     result = Credentials()
     result.user_name = credentials["user_name"]
     result.password = credentials["password"]
+    result.graylaw_eori_number = credentials["EORI"]
 
     return result
 
