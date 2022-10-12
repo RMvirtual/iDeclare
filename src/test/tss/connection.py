@@ -22,6 +22,15 @@ class TestTssApi(unittest.TestCase):
 
         self.assertEqual(correct_eori_number, eori_number)
 
+    def test_should_delete_consignment(self) -> None:
+        eori_number = user_credentials().graylaw_eori_number
+        report = connection.create_consignment(eori_number)
+
+        dec_reference = report["result"]["reference"]
+        cancel_report = connection.cancel_consignment(dec_reference)
+
+        self.assertEqual(
+            "SUCCESS", cancel_report["result"]["process_message"])
 
 if __name__ == '__main__':
     unittest.main()

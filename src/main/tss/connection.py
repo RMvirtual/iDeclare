@@ -18,6 +18,24 @@ def read_consignment(consignment_reference: str) -> str:
     return response_values["result"]["importer_eori"]
 
 
+def cancel_consignment(dec_number: str) -> dict[str, str]:
+    login = credentials.user_credentials()
+    environment = api_environments.environments().TEST
+
+    example_data = {
+        "op_type": "cancel",
+        "consignment_number": dec_number
+    }
+
+    response = requests.post(
+        url="https://" + environment +
+            "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
+        auth=(login.user_name, login.password),
+        json=example_data
+    )
+
+    return response.json()
+
 def create_consignment(importer_eori_number: str) -> dict[str, str]:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST
