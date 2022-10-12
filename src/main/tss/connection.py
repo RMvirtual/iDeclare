@@ -8,11 +8,11 @@ def read_dummy_consignment() -> None:
 
     response = requests.get(
         url="https://" + environment
-            + "/api/x_fhmrc_tss_api/v1/tss_api/headers?"
-            + "reference=ENS000000000405352"
-            + "&fields=status,arrival_port,seal_number,route,carrier_eori"
+            + "/api/x_fhmrc_tss_api/v1/tss_api/headers"
         ,
-        auth=(login.user_name, login.password)
+        auth=(login.user_name, login.password),
+        params="reference=ENS000000000405352"
+            + "&fields=status,arrival_port,seal_number,route,carrier_eori"
     )
 
     print(response.text)
