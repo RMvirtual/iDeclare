@@ -6,7 +6,7 @@ def create_consignment() -> None:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST
 
-    example_data = """{
+    example_data = {
         "op_type": "create",
         "declaration_number": "ENS000000000405352",
         "consignment_number": "",
@@ -30,7 +30,7 @@ def create_consignment() -> None:
         "consignee_city": "DUMMY",
         "consignee_postcode": "DUMMY",
         "consignee_country": "GB",
-        "importer_eori": "GB712702862000",
+        "importer_eori": login.graylaw_eori_number,
         "exporter_eori": "",
         "exporter_name": "DUMMY",
         "exporter_street_number": "DUMMY",
@@ -52,16 +52,16 @@ def create_consignment() -> None:
                 "auth_type_code": ""
             }
         ]
-    }"""
+    }
 
     response = requests.post(
         url="https://" + environment +
             "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
         auth=(login.user_name, login.password),
-        data=example_data
+        json=example_data
     )
 
-    print(response.text)
+    print(response.json())
 
 
 def read_declaration() -> None:
@@ -83,7 +83,7 @@ def create_declaration() -> str:
     login = credentials.user_credentials()
     environment = api_environments.environments().TEST
 
-    example_data = """{
+    example_data = {
         "op_type": "create",
         "declaration_number": "",
         "movement_type": "3",
@@ -104,13 +104,13 @@ def create_declaration() -> str:
         "carrier_postcode": "",
         "carrier_country": "",
         "haulier_eori": ""
-    }"""
+    }
 
     response = requests.post(
         url="https://" + environment +
             "/api/x_fhmrc_tss_api/v1/tss_api/headers?",
         auth=(login.user_name, login.password),
-        data=example_data
+        json=example_data
     )
 
     print(response.text)
