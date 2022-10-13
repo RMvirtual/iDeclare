@@ -1,13 +1,14 @@
 import unittest
-from src.main.tss import connection
+from src.main.tss.api import TssApi
+from src.main.tss.declaration import DeclarationHeader
 from src.main.file_system.api_environments import TestEnvironment
 
 
 class TestTssApi(unittest.TestCase):
     def setUp(self):
-        environment = TestEnvironment()
-        self._graylaw_eori = environment.EORI_NO
-        self._api = connection.TssApi(environment)
+        self._environment = TestEnvironment()
+        self._graylaw_eori = self._environment.eori_no
+        self._api = TssApi(self._environment)
 
     def test_should_check_eori_number_is_valid(self):
         self.assertTrue(self._api.is_eori_valid(self._graylaw_eori))
@@ -16,12 +17,16 @@ class TestTssApi(unittest.TestCase):
         self.assertFalse(self._api.is_eori_valid(invalid_eori))
 
     def test_should_create_declaration(self) -> None:
-        ens_reference = self._api.create_declaration()
+        ens_reference = DeclarationHeader(
+            self._environment).create_declaration()
+
         self.assertTrue(ens_reference.startswith("ENS"))
 
     def test_should_cancel_declaration(self) -> None:
-        ens_reference = self._api.create_declaration()
-        report = self._api.cancel_declaration(ens_reference)
+        header = DeclarationHeader(self._environment)
+        ens_reference = header.create_declaration()
+        report = header.cancel_declaration(ens_reference)
+
         self.assertEqual("SUCCESS", report["result"]["process_message"])
 
     def test_should_create_consignment(self) -> None:
@@ -38,9 +43,10 @@ class TestTssApi(unittest.TestCase):
         self.assertEqual(self._graylaw_eori, eori_number)
 
     def test_should_delete_consignment(self) -> None:
-        ens_number = "ENS000000000405352"
+        ens_no = "ENS000000000405352"
+
         create_report = self._api.create_consignment(
-            ens_number, self._graylaw_eori)
+            ens_no, self._graylaw_eori)
 
         dec_reference = create_report["result"]["reference"]
         cancel_report = self._api.cancel_consignment(dec_reference)
