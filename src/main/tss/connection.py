@@ -1,5 +1,4 @@
 import requests
-from src.main.file_system import api_environments
 from src.main.file_system.api_environments import ApiEnvironment
 
 
@@ -21,41 +20,33 @@ class TssApi:
         return success
 
     def read_consignment(self, consignment_reference: str) -> str:
-        environment = api_environments.TestEnvironment()
-
         response = requests.get(
-            url="https://" + environment.DOMAIN
+            url="https://" + self._configuration.DOMAIN
                 + "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
-            auth=(environment.USER_NAME, environment.PASSWORD),
+            auth=(self._configuration.USER_NAME, self._configuration.PASSWORD),
             params="reference=" + consignment_reference
                 + "&fields=importer_eori"
         )
 
         return response.json()["result"]["importer_eori"]
 
-
     def cancel_consignment(self, dec_number: str) -> dict[str, str]:
-        environment = api_environments.TestEnvironment()
-
         example_data = {
             "op_type": "cancel",
             "consignment_number": dec_number
         }
 
         response = requests.post(
-            url="https://" + environment.DOMAIN +
+            url="https://" + self._configuration.DOMAIN +
                 "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
-            auth=(environment.USER_NAME, environment.PASSWORD),
+            auth=(self._configuration.USER_NAME, self._configuration.PASSWORD),
             json=example_data
         )
 
         return response.json()
 
-
     def create_consignment(self,
             ens_number: str, importer_eori_number: str) -> dict[str, str]:
-        environment = api_environments.TestEnvironment()
-
         example_data = {
             "op_type": "create",
             "declaration_number": ens_number,
@@ -105,50 +96,41 @@ class TssApi:
         }
 
         response = requests.post(
-            url="https://" + environment.DOMAIN +
+            url="https://" + self._configuration.DOMAIN +
                 "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
-            auth=(environment.USER_NAME, environment.PASSWORD),
+            auth=(self._configuration.USER_NAME, self._configuration.PASSWORD),
             json=example_data
         )
 
         return response.json()
 
-
     def read_declaration(self) -> None:
-        environment = api_environments.TestEnvironment()
-
         response = requests.get(
-            url="https://" + environment.DOMAIN
+            url="https://" + self._configuration.DOMAIN
                 + "/api/x_fhmrc_tss_api/v1/tss_api/headers",
-            auth=(environment.USER_NAME, environment.PASSWORD),
+            auth=(self._configuration.USER_NAME, self._configuration.PASSWORD),
             params="reference=ENS000000000405352"
                 + "&fields=status,arrival_port,seal_number,route,carrier_eori"
         )
 
         return response.json()
 
-
     def cancel_declaration(self, ens_number: str) -> dict[str, str]:
-        environment = api_environments.TestEnvironment()
-
         example_data = {
             "op_type": "cancel",
             "declaration_number": ens_number
         }
 
         response = requests.post(
-            url="https://" + environment.DOMAIN
+            url="https://" + self._configuration.DOMAIN
                 + "/api/x_fhmrc_tss_api/v1/tss_api/headers",
-            auth=(environment.USER_NAME, environment.PASSWORD),
+            auth=(self._configuration.USER_NAME, self._configuration.PASSWORD),
             json=example_data
         )
 
         return response.json()
 
-
     def create_declaration(self) -> str:
-        environment = api_environments.TestEnvironment()
-
         example_data = {
             "op_type": "create",
             "declaration_number": "",
@@ -173,9 +155,9 @@ class TssApi:
         }
 
         response = requests.post(
-            url="https://" + environment.DOMAIN +
+            url="https://" + self._configuration.DOMAIN +
                 "/api/x_fhmrc_tss_api/v1/tss_api/headers?",
-            auth=(environment.USER_NAME, environment.PASSWORD),
+            auth=(self._configuration.USER_NAME, self._configuration.PASSWORD),
             json=example_data
         )
 
