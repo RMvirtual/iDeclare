@@ -1,10 +1,10 @@
-import datetime
 import requests
-from src.main.tss.api.environments import ApiEnvironment
-from src.main.tss.api.url import tss_url
+from src.main.tss.api.environment.environments import ApiEnvironment
+from src.main.tss.api.environment.url import tss_url
+from src.main.tss.declarations.declaration_header import DeclarationHeader
 
 
-class DeclarationHeader:
+class DeclarationHeaderApiCall:
     def __init__(self, configuration: ApiEnvironment):
         self._initialise_configuration(configuration)
 
@@ -12,11 +12,11 @@ class DeclarationHeader:
         self._configuration = configuration
         self._url = tss_url(self._configuration, "declaration_header")
 
-    def create_declaration(self) -> str:
+    def create(self, declaration_header: DeclarationHeader) -> str:
         response = requests.post(
             url=self._url,
             auth=self._configuration.authentication,
-            json=self._dummy_data()
+            json=declaration_header.dummy_data()
         )
 
         return response.json()["result"]["reference"]
@@ -37,7 +37,7 @@ class DeclarationHeader:
 
         return response.json()
 
-    def cancel_declaration(self, ens_number: str) -> dict[str, str]:
+    def cancel(self, ens_number: str) -> dict[str, str]:
         example_data = {
             "op_type": "cancel",
             "declaration_number": ens_number
@@ -50,29 +50,3 @@ class DeclarationHeader:
         )
 
         return response.json()
-
-    def _dummy_data(self) -> dict[str, str]:
-        tomorrow = datetime.datetime.now() + datetime.timedelta(days=1)
-
-        return {
-            "op_type": "create",
-            "declaration_number": "",
-            "movement_type": "3",
-            "identity_no_of_transport": "xy12345",
-            "nationality_of_transport": "GB",
-            "conveyance_ref": "",
-            "arrival_date_time": tomorrow.strftime("%d/%m/%Y") + " 10:00:00",
-            "arrival_port": "GBAUBELBELBEL",
-            "place_of_loading": "Birkenhead",
-            "place_of_unloading": "Belfast",
-            "seal_number": "s123456",
-            "route": "gb-ni",
-            "transport_charges": "Y",
-            "carrier_eori": "XI123456789012",
-            "carrier_name": "",
-            "carrier_street_number": "",
-            "carrier_city": "",
-            "carrier_postcode": "",
-            "carrier_country": "",
-            "haulier_eori": ""
-        }

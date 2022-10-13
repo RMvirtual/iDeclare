@@ -1,5 +1,5 @@
 import dataclasses
-from src.main.tss.api import credentials
+from src.main.tss.api.environment import credentials
 from src.main.file_system import api_files
 
 

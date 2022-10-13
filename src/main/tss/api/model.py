@@ -1,6 +1,8 @@
-from src.main.tss.api.environments import ApiEnvironment
-from src.main.tss.declarations.declaration import DeclarationHeader
+from src.main.tss.api.environment.environments import ApiEnvironment
+from src.main.tss.declarations.declaration_header import DeclarationHeader
 from src.main.tss.declarations.consignment import Consignment
+from src.main.tss.api.calls.consignment import ConsignmentApiCall
+from src.main.tss.api.calls.declaration import DeclarationHeaderApiCall
 
 
 class TssApi:
@@ -10,26 +12,31 @@ class TssApi:
     def is_eori_valid(self, eori_number: str) -> bool:
         draft_ens_no = self._find_draft()
 
-        consignment = Consignment(self._configuration)
-        report = consignment.create_consignment(draft_ens_no, eori_number)
+        consignment = Consignment(
+            ens_no=draft_ens_no, importer_eori_no=eori_number)
+
+        api_call = ConsignmentApiCall(self._configuration)
+        report = api_call.create(consignment)
         success = report["result"]["process_message"] == "SUCCESS"
 
         if success:
             dec_number = report["result"]["reference"]
-            consignment.cancel_consignment(dec_number)
+            api_call.cancel(dec_number)
             print("Cancelling DEC Number:", dec_number)
 
         return success
 
     def _find_draft(self) -> str:
         draft_ens_no = self._configuration.draft_declaration
-        draft_dec = DeclarationHeader(self._configuration)
+        api_call = DeclarationHeaderApiCall(self._configuration)
 
-        if draft_dec.is_ens_no_draft(draft_ens_no):
+        if api_call.is_ens_no_draft(draft_ens_no):
             print("Old draft found of:", draft_ens_no)
 
         else:
-            draft_ens_no = draft_dec.create_declaration()
+            header = DeclarationHeader()
+            draft_ens_no = api_call.create(header)
+
             print("Have made new draft:", draft_ens_no)
             # Needs to add a dummy consignment so that consignment
             # cancellation later does not cancel the entire declaration.

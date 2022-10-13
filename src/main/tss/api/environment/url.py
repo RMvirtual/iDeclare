@@ -1,4 +1,4 @@
-from src.main.tss.api.environments import ApiEnvironment
+from src.main.tss.api.environment.environments import ApiEnvironment
 
 
 def tss_url(configuration: ApiEnvironment, resource: str) -> str:
