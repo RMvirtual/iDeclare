@@ -17,7 +17,7 @@ class ApiEnvironment:
     eori_no: str = ""
     draft_declaration: str = ""
     resources: dict[str, str] = dataclasses.field(
-        default_factory=_deserialise_resource_url_links())
+        default_factory=_deserialise_resource_url_links)
 
 
 class TestEnvironment(ApiEnvironment):

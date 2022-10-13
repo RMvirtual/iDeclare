@@ -1,6 +1,7 @@
 import datetime
 import requests
 from src.main.file_system.api_environments import ApiEnvironment
+from src.main.tss.url import tss_url
 
 
 class DeclarationHeader:
@@ -9,13 +10,7 @@ class DeclarationHeader:
 
     def _initialise_configuration(self, configuration: ApiEnvironment):
         self._configuration = configuration
-
-        self._url = (
-            "https://"
-            + self._configuration.domain
-            + "/api/x_fhmrc_tss_api/v1/tss_api/"
-            + self._configuration.resources["declaration_header"]
-        )
+        self._url = tss_url(self._configuration, "declaration_header")
 
         self._authentication = (
             self._configuration.user_name, self._configuration.password)
