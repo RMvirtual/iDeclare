@@ -12,10 +12,13 @@ class Consignment:
             + "/api/x_fhmrc_tss_api/v1/tss_api/consignments"
         )
 
+        self._authentication = (
+            self._configuration.user_name, self._configuration.password)
+
     def read_consignment(self, consignment_reference: str) -> str:
         response = requests.get(
             url=self._url,
-            auth=(self._configuration.user_name, self._configuration.password),
+            auth=self._authentication,
             params="reference="
                    + consignment_reference + "&fields=importer_eori"
         )
@@ -30,7 +33,7 @@ class Consignment:
 
         response = requests.post(
             url=self._url,
-            auth=(self._configuration.user_name, self._configuration.password),
+            auth=self._authentication,
             json=example_data
         )
 
@@ -90,7 +93,7 @@ class Consignment:
 
         response = requests.post(
             url=self._url,
-            auth=(self._configuration.user_name, self._configuration.password),
+            auth=self._authentication,
             json=example_data
         )
 

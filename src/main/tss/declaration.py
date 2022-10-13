@@ -4,17 +4,24 @@ from src.main.file_system.api_environments import ApiEnvironment
 
 class DeclarationHeader:
     def __init__(self, configuration: ApiEnvironment):
+        self._initialise_configuration(configuration)
+
+    def _initialise_configuration(self, configuration: ApiEnvironment):
         self._configuration = configuration
+
         self._url = (
             "https://"
             + self._configuration.domain
             + "/api/x_fhmrc_tss_api/v1/tss_api/headers"
         )
 
+        self._authentication = (
+            self._configuration.user_name, self._configuration.password)
+
     def read_declaration(self) -> None:
         response = requests.get(
             url=self._url,
-            auth=(self._configuration.user_name, self._configuration.password),
+            auth=self._authentication,
             params="reference=ENS000000000405352"
                    + "&fields=status,arrival_port,seal_number,route,"
                      "carrier_eori"
@@ -62,7 +69,7 @@ class DeclarationHeader:
 
         response = requests.post(
             url=self._url,
-            auth=(self._configuration.user_name, self._configuration.password),
+            auth=self._authentication,
             json=example_data
         )
 

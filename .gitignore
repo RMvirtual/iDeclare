@@ -145,3 +145,4 @@ dmypy.json
 user.bazelrc
 
 /config/api/credentials.json
+/config/api/draft_declarations.json
