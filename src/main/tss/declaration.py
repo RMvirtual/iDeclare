@@ -15,8 +15,6 @@ class DeclarationHeader:
             + "/api/x_fhmrc_tss_api/v1/tss_api/headers"
         )
 
-        print("URL:", self._url)
-
         self._authentication = (
             self._configuration.user_name, self._configuration.password)
 
