@@ -144,5 +144,4 @@ dmypy.json
 # User-specific .bazelrc
 user.bazelrc
 
-/config/api/test_credentials.json
-/config/api/production_credentials.json
+/config/api/credentials.json

@@ -4,9 +4,8 @@ py_library(
     name = "file_system",
     srcs = glob(["*.py"]),
     data = [
+        "//config/api:credentials.json",
         "//config/api:environments.json",
-        "//config/api:production_credentials.json",
-        "//config/api:test_credentials.json"
     ],
     visibility = ["//visibility:public"],
     deps = [

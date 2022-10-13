@@ -17,13 +17,12 @@ def is_eori_valid(eori_number: str) -> bool:
 
 
 def read_consignment(consignment_reference: str) -> str:
-    login = credentials.user_credentials()
-    environment = api_environments.environments().TEST
+    environment = api_environments.TestEnvironment()
 
     response = requests.get(
-        url="https://" + environment
+        url="https://" + environment.DOMAIN
             + "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
-        auth=(login.user_name, login.password),
+        auth=(environment.USER_NAME, environment.PASSWORD),
         params="reference=" + consignment_reference
             + "&fields=importer_eori"
     )
@@ -33,8 +32,7 @@ def read_consignment(consignment_reference: str) -> str:
 
 
 def cancel_consignment(dec_number: str) -> dict[str, str]:
-    login = credentials.user_credentials()
-    environment = api_environments.environments().TEST
+    environment = api_environments.TestEnvironment()
 
     example_data = {
         "op_type": "cancel",
@@ -42,9 +40,9 @@ def cancel_consignment(dec_number: str) -> dict[str, str]:
     }
 
     response = requests.post(
-        url="https://" + environment +
+        url="https://" + environment.DOMAIN +
             "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
-        auth=(login.user_name, login.password),
+        auth=(environment.USER_NAME, environment.PASSWORD),
         json=example_data
     )
 
@@ -53,8 +51,7 @@ def cancel_consignment(dec_number: str) -> dict[str, str]:
 
 def create_consignment(
         ens_number: str, importer_eori_number: str) -> dict[str, str]:
-    login = credentials.user_credentials()
-    environment = api_environments.environments().TEST
+    environment = api_environments.TestEnvironment()
 
     example_data = {
         "op_type": "create",
@@ -105,9 +102,9 @@ def create_consignment(
     }
 
     response = requests.post(
-        url="https://" + environment +
+        url="https://" + environment.DOMAIN +
             "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
-        auth=(login.user_name, login.password),
+        auth=(environment.USER_NAME, environment.PASSWORD),
         json=example_data
     )
 
@@ -115,13 +112,12 @@ def create_consignment(
 
 
 def read_declaration() -> None:
-    login = credentials.user_credentials()
-    environment = api_environments.environments().TEST
+    environment = api_environments.TestEnvironment()
 
     response = requests.get(
-        url="https://" + environment
+        url="https://" + environment.DOMAIN
             + "/api/x_fhmrc_tss_api/v1/tss_api/headers",
-        auth=(login.user_name, login.password),
+        auth=(environment.USER_NAME, environment.PASSWORD),
         params="reference=ENS000000000405352"
             + "&fields=status,arrival_port,seal_number,route,carrier_eori"
     )
@@ -130,8 +126,7 @@ def read_declaration() -> None:
 
 
 def cancel_declaration(ens_number: str) -> dict[str, str]:
-    login = credentials.user_credentials()
-    environment = api_environments.environments().TEST
+    environment = api_environments.TestEnvironment()
 
     example_data = {
         "op_type": "cancel",
@@ -139,9 +134,9 @@ def cancel_declaration(ens_number: str) -> dict[str, str]:
     }
 
     response = requests.post(
-        url="https://" + environment
+        url="https://" + environment.DOMAIN
             + "/api/x_fhmrc_tss_api/v1/tss_api/headers",
-        auth=(login.user_name, login.password),
+        auth=(environment.USER_NAME, environment.PASSWORD),
         json=example_data
     )
 
@@ -149,8 +144,7 @@ def cancel_declaration(ens_number: str) -> dict[str, str]:
 
 
 def create_declaration() -> str:
-    login = credentials.user_credentials()
-    environment = api_environments.environments().TEST
+    environment = api_environments.TestEnvironment()
 
     example_data = {
         "op_type": "create",
@@ -176,12 +170,13 @@ def create_declaration() -> str:
     }
 
     response = requests.post(
-        url="https://" + environment +
+        url="https://" + environment.DOMAIN +
             "/api/x_fhmrc_tss_api/v1/tss_api/headers?",
-        auth=(login.user_name, login.password),
+        auth=(environment.USER_NAME, environment.PASSWORD),
         json=example_data
     )
 
+    print(response)
     response_values = response.json()
 
     return response_values["result"]["reference"]

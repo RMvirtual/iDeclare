@@ -1,5 +1,4 @@
 exports_files([
     "environments.json",
-    "test_credentials.json",
-    "production_credentials.json"
+    "credentials.json",
 ])
