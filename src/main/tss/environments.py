@@ -1,5 +1,5 @@
 import dataclasses
-from src.main.file_system import credentials
+from src.main.tss import credentials
 from src.main.file_system import api_files
 
 

@@ -1,6 +1,6 @@
 import datetime
 import requests
-from src.main.file_system.api_environments import ApiEnvironment
+from src.main.tss.environments import ApiEnvironment
 from src.main.tss.url import tss_url
 
 

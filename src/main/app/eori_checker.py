@@ -1,6 +1,6 @@
 import os
 from src.main.tss.api import TssApi
-from src.main.file_system.api_environments import ApiEnvironment
+from src.main.tss.api_environments import ApiEnvironment
 
 
 def eori_checker(environment: ApiEnvironment):

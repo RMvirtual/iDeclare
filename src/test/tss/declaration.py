@@ -1,6 +1,6 @@
 import unittest
 from src.main.tss.declaration import DeclarationHeader
-from src.main.file_system.api_environments import TestEnvironment
+from src.main.tss.environments import TestEnvironment
 
 
 class TestTssDeclaration(unittest.TestCase):

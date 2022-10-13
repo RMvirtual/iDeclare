@@ -1,4 +1,4 @@
-from src.main.file_system.api_environments import ApiEnvironment
+from src.main.tss.environments import ApiEnvironment
 from src.main.tss.declaration import DeclarationHeader
 from src.main.tss.consignment import Consignment
 
