@@ -1,0 +1,12 @@
+{
+  "declaration_header": "headers",
+  "consignment": "consignments",
+  "goods": "goods",
+  "sfd_header": "sfd_headers",
+  "sfd": "simplified_frontier_declarations",
+  "supplementary_declaration": "supplementary_declarations",
+  "full_frontier_declaration": "full_frontier_declarations",
+  "maritime_inventory_claim": "inventory_claim",
+  "agent_relationships": "agent_relationships",
+  "gmr": "gvms_gmr"
+}
