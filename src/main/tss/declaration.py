@@ -12,13 +12,10 @@ class DeclarationHeader:
         self._configuration = configuration
         self._url = tss_url(self._configuration, "declaration_header")
 
-        self._authentication = (
-            self._configuration.user_name, self._configuration.password)
-
     def create_declaration(self) -> str:
         response = requests.post(
             url=self._url,
-            auth=self._authentication,
+            auth=self._configuration.authentication,
             json=self._dummy_data()
         )
 
@@ -32,7 +29,7 @@ class DeclarationHeader:
     def read_declaration(self, ens_number) -> dict[str, str]:
         response = requests.get(
             url=self._url,
-            auth=self._authentication,
+            auth=self._configuration.authentication,
             params="reference=" + ens_number
                    + "&fields=status,arrival_port,seal_number,route,"
                      "carrier_eori"
@@ -48,7 +45,7 @@ class DeclarationHeader:
 
         response = requests.post(
             url=self._url,
-            auth=self._authentication,
+            auth=self._configuration.authentication,
             json=example_data
         )
 

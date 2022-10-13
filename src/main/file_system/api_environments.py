@@ -19,6 +19,10 @@ class ApiEnvironment:
     resources: dict[str, str] = dataclasses.field(
         default_factory=_deserialise_resource_url_links)
 
+    @property
+    def authentication(self) -> tuple[str, str]:
+        return self.user_name, self.password
+
 
 class TestEnvironment(ApiEnvironment):
     def __init__(self):

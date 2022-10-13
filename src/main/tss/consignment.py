@@ -8,9 +8,6 @@ class Consignment:
         self._configuration = configuration
         self._url = tss_url(self._configuration, "consignment")
 
-        self._authentication = (
-            self._configuration.user_name, self._configuration.password)
-
     def create_consignment(
             self, ens_no: str, importer_eori_no: str) -> dict[str, str]:
         example_data = {
@@ -63,7 +60,7 @@ class Consignment:
 
         response = requests.post(
             url=self._url,
-            auth=self._authentication,
+            auth=self._configuration.authentication,
             json=example_data
         )
 
@@ -72,7 +69,7 @@ class Consignment:
     def read_importer_eori(self, consignment_reference: str) -> str:
         response = requests.get(
             url=self._url,
-            auth=self._authentication,
+            auth=self._configuration.authentication,
             params="reference="
                    + consignment_reference + "&fields=importer_eori"
         )
@@ -87,7 +84,7 @@ class Consignment:
 
         response = requests.post(
             url=self._url,
-            auth=self._authentication,
+            auth=self._configuration.authentication,
             json=example_data
         )
 
