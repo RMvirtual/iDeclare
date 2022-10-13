@@ -9,42 +9,42 @@ from src.main.tss.declarations.consignment import Consignment
 class TestConsignmentApiCall(unittest.TestCase):
     def setUp(self):
         self._environment = TestEnvironment()
-        self._own_eori_number = self._environment.eori_no
-        self._pre_existing_dec_reference = "DEC000000001010576"
-        self._draft_ens = self._environment.draft_declaration
+        self._pre_existing_dec_ref = "DEC000000001010576"
+
+        self._consignment = Consignment(
+            self._environment.draft_declaration, self._environment.eori_no)
 
     def test_should_create_consignment(self) -> None:
-        consignment = Consignment(self._draft_ens, self._own_eori_number)
-
         api_call = ConsignmentApiCall(self._environment)
-        report = api_call.create(consignment)
+        report = api_call.create(self._consignment)
 
-        success_reported = report["result"]["process_message"] == "SUCCESS"
-        self.assertTrue(success_reported)
-
-        reference = report["result"]["reference"]
-        dec_ref_received = bool(re.fullmatch(r"DEC\d{15}", reference))
-        self.assertTrue(dec_ref_received)
+        self.assertTrue(self._is_success_reported(report))
+        self.assertTrue(self._is_dec_reference_received(report))
 
     def test_should_read_importer_eori(self) -> None:
         api_call = ConsignmentApiCall(self._environment)
+        eori_no = api_call.read_importer_eori(self._pre_existing_dec_ref)
 
-        eori_number = api_call.read_importer_eori(
-            self._pre_existing_dec_reference)
-
-        self.assertEqual(self._own_eori_number, eori_number)
+        self.assertEqual(self._environment.eori_no, eori_no)
 
     def test_should_delete_consignment(self) -> None:
-        consignment = Consignment(self._draft_ens, self._own_eori_number)
-
         api_call = ConsignmentApiCall(self._environment)
-        creation_report = api_call.create(consignment)
+        creation_report = api_call.create(self._consignment)
 
         dec_reference = creation_report["result"]["reference"]
-        report = api_call.cancel(dec_reference)
+        cancellation_report = api_call.cancel(dec_reference)
 
-        success_reported = report["result"]["process_message"] == "SUCCESS"
-        self.assertTrue(success_reported)
+        self.assertTrue(self._is_success_reported(cancellation_report))
+
+    @staticmethod
+    def _is_success_reported(report: dict[str, dict[str, str]]) -> bool:
+        return report["result"]["process_message"] == "SUCCESS"
+
+    @staticmethod
+    def _is_dec_reference_received(report: dict[str, dict[str, str]]) -> bool:
+        reference = report["result"]["reference"]
+
+        return bool(re.fullmatch(r"DEC\d{15}", reference))
 
 
 if __name__ == '__main__':
