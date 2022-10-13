@@ -1,10 +1,12 @@
 import dataclasses
+import re
 from src.main.tss.api.environment import credentials
 from src.main.file_system import api_files
 
 
 @dataclasses.dataclass
 class ApiEnvironment:
+    environment_type: str = ""
     domain: str = ""
     user_name: str = ""
     password: str = ""
@@ -17,12 +19,21 @@ class ApiEnvironment:
     def authentication(self) -> tuple[str, str]:
         return self.user_name, self.password
 
+    def update_draft(self, new_ens: str):
+        if re.fullmatch(r"ENS\d{15}", new_ens):
+            api_files.update_draft_declaration(self.environment_type, new_ens)
+            self.draft_declaration = new_ens
+
 
 class TestEnvironment(ApiEnvironment):
     def __init__(self):
         super().__init__()
-        self.domain = api_files.environments()["TEST"]
-        self.draft_declaration = api_files.draft_declarations()["TEST"]
+        self.environment_type = "TEST"
+        self.domain = api_files.environments()[self.environment_type]
+
+        self.draft_declaration = api_files.draft_declarations()[
+            self.environment_type]
+
         self._initialise_login_credentials()
 
     def _initialise_login_credentials(self):
@@ -35,8 +46,12 @@ class TestEnvironment(ApiEnvironment):
 class ProductionEnvironment(ApiEnvironment):
     def __init__(self):
         super().__init__()
-        self.domain = api_files.environments()["PROD"]
-        self.draft_declaration = api_files.draft_declarations()["PROD"]
+        self.environment_type = "PROD"
+        self.domain = api_files.environments()[self.environment_type]
+
+        self.draft_declaration = api_files.draft_declarations()[
+            self.environment_type]
+
         self._initialise_login_credentials()
 
     def _initialise_login_credentials(self):

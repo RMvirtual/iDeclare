@@ -1,3 +1,4 @@
+import re
 from src.main.tss.api.environment.environments import ApiEnvironment
 from src.main.tss.declarations.declaration_header import DeclarationHeader
 from src.main.tss.declarations.consignment import Consignment
@@ -27,20 +28,33 @@ class TssApi:
         return success
 
     def _find_draft(self) -> str:
-        draft_ens_no = self._configuration.draft_declaration
         api_call = DeclarationHeaderApiCall(self._configuration)
+        draft_ens_no = self._configuration.draft_declaration
 
         if api_call.is_ens_no_draft(draft_ens_no):
             print("Old draft found of:", draft_ens_no)
 
         else:
-            header = DeclarationHeader()
-            draft_ens_no = api_call.create(header)
-
+            draft_ens_no = self._create_new_draft(api_call)
             print("Have made new draft:", draft_ens_no)
-            # Needs to add a dummy consignment so that consignment
-            # cancellation later does not cancel the entire declaration.
 
-            # Update draft json file too look at that consignment too.
+            # Update draft json file to look at that consignment too.
+            if re.fullmatch(r"ENS\d{15}", draft_ens_no):
+                self._configuration.update_draft(draft_ens_no)
+
+        return draft_ens_no
+
+    def _create_new_draft(self, api_call: DeclarationHeaderApiCall):
+        header = DeclarationHeader()
+        draft_ens_no = api_call.create(header)
+
+        consignment_api_call = ConsignmentApiCall(self._configuration)
+
+        draft_consignment_for_padding = Consignment(
+            ens_no=draft_ens_no,
+            importer_eori_no=self._configuration.eori_no
+        )
+
+        consignment_api_call.create(draft_consignment_for_padding)
 
         return draft_ens_no

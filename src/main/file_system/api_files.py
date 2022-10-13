@@ -18,6 +18,18 @@ def credentials() -> dict[str, str]:
     return deserialise_json_file("config/api/credentials.json")
 
 
+def update_draft_declaration(environment_type: str, new_ens_no: str) -> None:
+    contents = draft_declarations()
+    contents[environment_type] = new_ens_no
+
+    serialise_to_json_file("config/api/draft_declarations.json", contents)
+
+
 def deserialise_json_file(src_path: str) -> dict[str, str]:
     with open(runfiles.load_path(src_path)) as file_stream:
         return json.load(file_stream)
+
+
+def serialise_to_json_file(src_path: str, values: dict[str, str]) -> None:
+    with open(runfiles.load_path(src_path), "w") as file_stream:
+        json.dump(values, file_stream, indent=4, sort_keys=True)
