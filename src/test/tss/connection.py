@@ -5,11 +5,12 @@ from src.main.file_system.api_environments import TestEnvironment
 
 class TestTssApi(unittest.TestCase):
     def setUp(self):
-        self._environment = TestEnvironment()
-        self._api = connection.TssApi(self._environment)
+        environment = TestEnvironment()
+        self._graylaw_eori = environment.EORI_NO
+        self._api = connection.TssApi(environment)
 
     def test_should_check_eori_number_is_valid(self):
-        self.assertTrue(self._api.is_eori_valid(self._environment.EORI_NO))
+        self.assertTrue(self._api.is_eori_valid(self._graylaw_eori))
 
         invalid_eori = "XI123456798012"
         self.assertFalse(self._api.is_eori_valid(invalid_eori))
@@ -25,9 +26,7 @@ class TestTssApi(unittest.TestCase):
 
     def test_should_create_consignment(self) -> None:
         ens_number = "ENS000000000405352"
-
-        report = self._api.create_consignment(
-            ens_number, self._environment.EORI_NO)
+        report = self._api.create_consignment(ens_number, self._graylaw_eori)
 
         self.assertEqual("SUCCESS", report["result"]["process_message"])
         self.assertTrue(report["result"]["reference"].startswith("DEC"))
@@ -36,19 +35,17 @@ class TestTssApi(unittest.TestCase):
         consignment = "DEC000000001010576"
         eori_number = self._api.read_consignment(consignment)
 
-        self.assertEqual(self._environment.EORI_NO, eori_number)
+        self.assertEqual(self._graylaw_eori, eori_number)
 
     def test_should_delete_consignment(self) -> None:
         ens_number = "ENS000000000405352"
+        create_report = self._api.create_consignment(
+            ens_number, self._graylaw_eori)
 
-        report = self._api.create_consignment(
-            ens_number, self._environment.EORI_NO)
-
-        dec_reference = report["result"]["reference"]
+        dec_reference = create_report["result"]["reference"]
         cancel_report = self._api.cancel_consignment(dec_reference)
 
-        self.assertEqual(
-            "SUCCESS", cancel_report["result"]["process_message"])
+        self.assertEqual("SUCCESS", cancel_report["result"]["process_message"])
 
 
 if __name__ == '__main__':
