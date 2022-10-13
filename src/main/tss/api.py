@@ -8,14 +8,11 @@ class TssApi:
         self._configuration = configuration
 
     def is_eori_valid(self, eori_number: str) -> bool:
-        dummy_declaration = DeclarationHeader(
-            self._configuration)\
-
+        dummy_declaration = DeclarationHeader(self._configuration)
         ens_no = dummy_declaration.create_declaration()
+
         consignment = Consignment(self._configuration)
-
         report = consignment.create_consignment(ens_no, eori_number)
-
         success = report["result"]["process_message"] == "SUCCESS"
 
         if success:

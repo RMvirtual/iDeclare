@@ -1,7 +1,25 @@
 load("@rules_python//python:defs.bzl", "py_test")
 
 py_test(
-    name = "connection",
+    name = "api",
+    srcs = glob(["*.py"]),
+    data = [],
+    deps = [
+        "//src/main/tss",
+    ],
+)
+
+py_test(
+    name = "declaration",
+    srcs = glob(["*.py"]),
+    data = [],
+    deps = [
+        "//src/main/tss",
+    ],
+)
+
+py_test(
+    name = "consignment",
     srcs = glob(["*.py"]),
     data = [],
     deps = [

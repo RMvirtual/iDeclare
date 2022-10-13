@@ -1,5 +1,5 @@
 import requests
-from src.main.tss.api import ApiEnvironment
+from src.main.file_system.api_environments import ApiEnvironment
 
 
 class Consignment:
