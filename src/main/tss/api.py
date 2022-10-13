@@ -33,6 +33,7 @@ class TssApi:
             print("Have made new draft:", draft_ens_no)
             # Needs to add a dummy consignment so that consignment
             # cancellation later does not cancel the entire declaration.
-            # Update draft json file here too.
+
+            # Update draft json file too look at that consignment too.
 
         return draft_ens_no
