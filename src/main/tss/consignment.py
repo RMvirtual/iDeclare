@@ -65,9 +65,6 @@ class Consignment:
             ]
         }
 
-        print("URL good:", self._url)
-        print(self._authentication)
-
         response = requests.post(
             url=self._url,
             auth=self._authentication,

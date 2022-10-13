@@ -28,7 +28,7 @@ class DeclarationHeader:
             "identity_no_of_transport": "xy12345",
             "nationality_of_transport": "GB",
             "conveyance_ref": "",
-            "arrival_date_time": "14/10/2022 10:00:00",
+            "arrival_date_time": "14/10/2022 10:00:00",  # NEEDS FUTURE DATE
             "arrival_port": "GBAUBELBELBEL",
             "place_of_loading": "Birkenhead",
             "place_of_unloading": "Belfast",
@@ -49,10 +49,6 @@ class DeclarationHeader:
             auth=self._authentication,
             json=example_data
         )
-
-        print(self._authentication)
-
-        print(response)
 
         return response.json()["result"]["reference"]
 
