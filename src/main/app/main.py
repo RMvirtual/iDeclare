@@ -6,7 +6,7 @@ from src.main.file_system.api_environments import (
 
 def main():
     should_exit = None
-    api = TssApi(TestEnvironment())
+    api = TssApi(ProductionEnvironment())
 
     while not should_exit:
         user_input = input(

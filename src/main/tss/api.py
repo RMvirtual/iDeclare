@@ -31,6 +31,8 @@ class TssApi:
         else:
             draft_ens_no = draft_dec.create_declaration()
             print("Have made new draft:", draft_ens_no)
-            # update draft json file here too.
+            # Needs to add a dummy consignment so that consignment
+            # cancellation later does not cancel the entire declaration.
+            # Update draft json file here too.
 
         return draft_ens_no
