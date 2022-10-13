@@ -7,6 +7,7 @@ py_library(
         "//config/api:credentials.json",
         "//config/api:draft_declarations.json",
         "//config/api:environments.json",
+        "//config/api:resource_url_links.json",
     ],
     visibility = ["//visibility:public"],
     deps = [

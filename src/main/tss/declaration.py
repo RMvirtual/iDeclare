@@ -13,7 +13,8 @@ class DeclarationHeader:
         self._url = (
             "https://"
             + self._configuration.domain
-            + "/api/x_fhmrc_tss_api/v1/tss_api/headers"
+            + "/api/x_fhmrc_tss_api/v1/tss_api/"
+            + self._configuration.resources["declaration_header"]
         )
 
         self._authentication = (

@@ -27,5 +27,6 @@ class TestTssDeclaration(unittest.TestCase):
 
         self.assertEqual("SUCCESS", report["result"]["process_message"])
 
+
 if __name__ == '__main__':
     unittest.main()
