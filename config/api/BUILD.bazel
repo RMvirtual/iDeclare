@@ -1,4 +1,5 @@
 exports_files([
     "environments.json",
     "credentials.json",
+    "draft_declarations.json",
 ])
