@@ -19,7 +19,7 @@ class TestTssConsignment(unittest.TestCase):
     def test_should_read_consignment_eori(self) -> None:
         dec_no = "DEC000000001010576"
         consignment = Consignment(self._environment)
-        eori_number = consignment.read_consignment(dec_no)
+        eori_number = consignment.read_importer_eori(dec_no)
 
         self.assertEqual(self._graylaw_eori, eori_number)
 

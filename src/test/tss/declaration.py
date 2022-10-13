@@ -14,6 +14,12 @@ class TestTssDeclaration(unittest.TestCase):
 
         self.assertTrue(ens_reference.startswith("ENS"))
 
+    def test_should_find_declaration_ens_is_draft(self) -> None:
+        header = DeclarationHeader(self._environment)
+
+        self.assertTrue(header.is_ens_no_draft(
+            self._environment.draft_declaration))
+
     def test_should_cancel_declaration(self) -> None:
         header = DeclarationHeader(self._environment)
         ens_reference = header.create_declaration()

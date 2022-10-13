@@ -50,11 +50,16 @@ class DeclarationHeader:
 
         return response.json()["result"]["reference"]
 
-    def read_declaration(self) -> None:
+    def is_ens_no_draft(self, ens_number) -> bool:
+        reading = self.read_declaration(ens_number)
+
+        return reading["result"]["status"].lower() == "draft"
+
+    def read_declaration(self, ens_number) -> dict[str, str]:
         response = requests.get(
             url=self._url,
             auth=self._authentication,
-            params="reference=ENS000000000405352"
+            params="reference=" + ens_number
                    + "&fields=status,arrival_port,seal_number,route,"
                      "carrier_eori"
         )

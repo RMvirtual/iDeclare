@@ -73,7 +73,7 @@ class Consignment:
 
         return response.json()
 
-    def read_consignment(self, consignment_reference: str) -> str:
+    def read_importer_eori(self, consignment_reference: str) -> str:
         response = requests.get(
             url=self._url,
             auth=self._authentication,

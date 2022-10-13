@@ -1,27 +1,30 @@
 import os
 from src.main.tss.api import TssApi
-from src.main.file_system.api_environments import ProductionEnvironment
+from src.main.file_system.api_environments import (
+    ProductionEnvironment, TestEnvironment)
 
 
 def main():
-    eori_candidate = input(
-        "Please input an EORI number to check or type \"exit\": ")
+    should_exit = None
+    api = TssApi(TestEnvironment())
 
-    if eori_candidate.lower() == "exit":
-        os.system("cls")
-        exit()
+    while not should_exit:
+        user_input = input(
+            "Please input an EORI number to check or type \"exit\": ")
 
-    elif TssApi(ProductionEnvironment()).is_eori_valid(eori_candidate):
-        print("EORI number " + eori_candidate + " is valid.")
+        if user_input.lower() == "exit":
+            should_exit = True
+
+        elif api.is_eori_valid(user_input):
+            print("EORI number " + user_input + " is valid.")
+
+        else:
+            print("EORI number " + user_input + " is INVALID.")
+
         input("\nPress any key to continue.")
         os.system("cls")
-        main()
 
-    else:
-        print("EORI number " + eori_candidate + " is INVALID.")
-        input("\nPress any key to continue.")
-        os.system("cls")
-        main()
+    os.system("cls")
 
 
 if __name__ == '__main__':
