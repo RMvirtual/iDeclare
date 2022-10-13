@@ -1,6 +1,6 @@
 import unittest
-from src.main.tss.consignment import Consignment
-from src.main.tss.environments import TestEnvironment
+from src.main.tss.declarations.consignment import Consignment
+from src.main.tss.api.environments import TestEnvironment
 
 
 class TestTssConsignment(unittest.TestCase):

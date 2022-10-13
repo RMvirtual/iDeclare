@@ -1,6 +1,6 @@
 import requests
-from src.main.tss.environments import ApiEnvironment
-from src.main.tss.url import tss_url
+from src.main.tss.api.environments import ApiEnvironment
+from src.main.tss.api.url import tss_url
 
 
 class Consignment:

@@ -1,6 +1,6 @@
 import unittest
-from src.main.tss.api import TssApi
-from src.main.tss.environments import TestEnvironment
+from src.main.tss.api.model import TssApi
+from src.main.tss.api.environments import TestEnvironment
 
 
 class TestTssApi(unittest.TestCase):

@@ -1,5 +1,5 @@
 import os
-from src.main.tss.api import TssApi
+from src.main.tss.api.api import TssApi
 from src.main.tss.api_environments import ApiEnvironment
 
 

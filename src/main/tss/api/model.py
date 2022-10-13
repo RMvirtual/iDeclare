@@ -1,6 +1,6 @@
-from src.main.tss.environments import ApiEnvironment
-from src.main.tss.declaration import DeclarationHeader
-from src.main.tss.consignment import Consignment
+from src.main.tss.api.environments import ApiEnvironment
+from src.main.tss.declarations.declaration import DeclarationHeader
+from src.main.tss.declarations.consignment import Consignment
 
 
 class TssApi:

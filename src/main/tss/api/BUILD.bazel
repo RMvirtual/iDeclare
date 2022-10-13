@@ -2,12 +2,12 @@ load("@rules_python//python:defs.bzl", "py_library")
 load("@python_third_party//:requirements.bzl", "requirement")
 
 py_library(
-    name = "tss",
+    name = "api",
     srcs = glob(["*.py"]),
     data = [],
     visibility = ["//visibility:public"],
     deps = [
-        "//src/main/tss/api",
-        "//src/main/tss/declarations",
+        requirement("requests"),
+        "//src/main/file_system",
     ],
 )
