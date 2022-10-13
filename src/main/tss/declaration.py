@@ -5,11 +5,15 @@ from src.main.file_system.api_environments import ApiEnvironment
 class DeclarationHeader:
     def __init__(self, configuration: ApiEnvironment):
         self._configuration = configuration
+        self._url = (
+            "https://"
+            + self._configuration.domain
+            + "/api/x_fhmrc_tss_api/v1/tss_api/headers"
+        )
 
     def read_declaration(self) -> None:
         response = requests.get(
-            url="https://" + self._configuration.domain
-                + "/api/x_fhmrc_tss_api/v1/tss_api/headers",
+            url=self._url,
             auth=(self._configuration.user_name, self._configuration.password),
             params="reference=ENS000000000405352"
                    + "&fields=status,arrival_port,seal_number,route,"
@@ -25,8 +29,7 @@ class DeclarationHeader:
         }
 
         response = requests.post(
-            url="https://" + self._configuration.domain
-                + "/api/x_fhmrc_tss_api/v1/tss_api/headers",
+            url=self._url,
             auth=(self._configuration.user_name, self._configuration.password),
             json=example_data
         )
@@ -58,8 +61,7 @@ class DeclarationHeader:
         }
 
         response = requests.post(
-            url="https://" + self._configuration.domain +
-                "/api/x_fhmrc_tss_api/v1/tss_api/headers?",
+            url=self._url,
             auth=(self._configuration.user_name, self._configuration.password),
             json=example_data
         )

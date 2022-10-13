@@ -6,13 +6,18 @@ class Consignment:
     def __init__(self, configuration: ApiEnvironment):
         self._configuration = configuration
 
+        self._url = (
+            "https://"
+            + self._configuration.domain
+            + "/api/x_fhmrc_tss_api/v1/tss_api/consignments"
+        )
+
     def read_consignment(self, consignment_reference: str) -> str:
         response = requests.get(
-            url="https://" + self._configuration.domain
-                + "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
+            url=self._url,
             auth=(self._configuration.user_name, self._configuration.password),
-            params="reference=" + consignment_reference
-                + "&fields=importer_eori"
+            params="reference="
+                   + consignment_reference + "&fields=importer_eori"
         )
 
         return response.json()["result"]["importer_eori"]
@@ -24,8 +29,7 @@ class Consignment:
         }
 
         response = requests.post(
-            url="https://" + self._configuration.domain +
-                "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
+            url=self._url,
             auth=(self._configuration.user_name, self._configuration.password),
             json=example_data
         )
@@ -85,8 +89,7 @@ class Consignment:
         }
 
         response = requests.post(
-            url="https://" + self._configuration.domain +
-                "/api/x_fhmrc_tss_api/v1/tss_api/consignments",
+            url=self._url,
             auth=(self._configuration.user_name, self._configuration.password),
             json=example_data
         )
