@@ -11,7 +11,7 @@ class ApiEnvironment:
     eori_no: str = ""
     draft_declaration: str = ""
     resources: dict[str, str] = dataclasses.field(
-        default_factory=api_files.deserialise_resource_url_links)
+        default_factory=api_files.resource_url_links)
 
     @property
     def authentication(self) -> tuple[str, str]:
@@ -21,8 +21,8 @@ class ApiEnvironment:
 class TestEnvironment(ApiEnvironment):
     def __init__(self):
         super().__init__()
-        self.domain = api_files.deserialise_environments_file()["TEST"]
-        self.draft_declaration = api_files.deserialise_draft_declarations_file()["TEST"]
+        self.domain = api_files.environments()["TEST"]
+        self.draft_declaration = api_files.draft_declarations()["TEST"]
         self._initialise_login_credentials()
 
     def _initialise_login_credentials(self):
@@ -35,8 +35,8 @@ class TestEnvironment(ApiEnvironment):
 class ProductionEnvironment(ApiEnvironment):
     def __init__(self):
         super().__init__()
-        self.domain = api_files.deserialise_environments_file()["PROD"]
-        self.draft_declaration = api_files.deserialise_draft_declarations_file()["PROD"]
+        self.domain = api_files.environments()["PROD"]
+        self.draft_declaration = api_files.draft_declarations()["PROD"]
         self._initialise_login_credentials()
 
     def _initialise_login_credentials(self):

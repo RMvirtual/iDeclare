@@ -1,6 +1,5 @@
 import dataclasses
-import json
-from src.main.file_system import runfiles
+from src.main.file_system import api_files
 
 
 @dataclasses.dataclass
@@ -12,7 +11,7 @@ class Credentials:
 
 
 def user_credentials() -> Credentials:
-    credentials = _deserialise_credentials_file()
+    credentials = api_files.credentials()
 
     result = Credentials()
     result.user_name = credentials["user_name"]
@@ -25,9 +24,3 @@ def user_credentials() -> Credentials:
 
     return result
 
-
-def _deserialise_credentials_file() -> dict[str, str]:
-    credentials_file = runfiles.load_path("config/api/credentials.json")
-
-    with open(credentials_file) as file_stream:
-        return json.load(file_stream)
