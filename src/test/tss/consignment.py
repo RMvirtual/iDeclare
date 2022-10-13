@@ -14,8 +14,6 @@ class TestConsignmentApiCall(unittest.TestCase):
         self._draft_ens = self._environment.draft_declaration
 
     def test_should_create_consignment(self) -> None:
-        # ens_number = "ENS000000000405352"
-
         consignment = Consignment(self._draft_ens, self._own_eori_number)
 
         api_call = ConsignmentApiCall(self._environment)
@@ -29,7 +27,6 @@ class TestConsignmentApiCall(unittest.TestCase):
         self.assertTrue(dec_ref_received)
 
     def test_should_read_importer_eori(self) -> None:
-        # dec_no = "DEC000000001010576"
         api_call = ConsignmentApiCall(self._environment)
 
         eori_number = api_call.read_importer_eori(
@@ -38,8 +35,6 @@ class TestConsignmentApiCall(unittest.TestCase):
         self.assertEqual(self._own_eori_number, eori_number)
 
     def test_should_delete_consignment(self) -> None:
-        # ens_number = "ENS000000000405352"
-
         consignment = Consignment(self._draft_ens, self._own_eori_number)
 
         api_call = ConsignmentApiCall(self._environment)
