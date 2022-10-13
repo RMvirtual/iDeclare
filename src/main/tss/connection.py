@@ -27,8 +27,7 @@ def read_consignment(consignment_reference: str) -> str:
             + "&fields=importer_eori"
     )
 
-    response_values = response.json()
-    return response_values["result"]["importer_eori"]
+    return response.json()["result"]["importer_eori"]
 
 
 def cancel_consignment(dec_number: str) -> dict[str, str]:
@@ -176,7 +175,4 @@ def create_declaration() -> str:
         json=example_data
     )
 
-    print(response)
-    response_values = response.json()
-
-    return response_values["result"]["reference"]
+    return response.json()["result"]["reference"]
