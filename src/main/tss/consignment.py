@@ -15,37 +15,11 @@ class Consignment:
         self._authentication = (
             self._configuration.user_name, self._configuration.password)
 
-    def read_consignment(self, consignment_reference: str) -> str:
-        response = requests.get(
-            url=self._url,
-            auth=self._authentication,
-            params="reference="
-                   + consignment_reference + "&fields=importer_eori"
-        )
-
-        return response.json()["result"]["importer_eori"]
-
-    def cancel_consignment(self, dec_number: str) -> dict[str, str]:
-        example_data = {
-            "op_type": "cancel",
-            "consignment_number": dec_number
-        }
-
-        response = requests.post(
-            url=self._url,
-            auth=self._authentication,
-            json=example_data
-        )
-
-        return response.json()
-
     def create_consignment(
-            self, ens_number: str,
-            importer_eori_number: str
-    ) -> dict[str, str]:
+            self, ens_no: str, importer_eori_no: str) -> dict[str, str]:
         example_data = {
             "op_type": "create",
-            "declaration_number": ens_number,
+            "declaration_number": ens_no,
             "consignment_number": "",
             "goods_description": "DUMMY TO CHECK EORI",
             "trader_reference": "",
@@ -67,7 +41,7 @@ class Consignment:
             "consignee_city": "DUMMY",
             "consignee_postcode": "DUMMY",
             "consignee_country": "GB",
-            "importer_eori": importer_eori_number,
+            "importer_eori": importer_eori_no,
             "exporter_eori": "",
             "exporter_name": "DUMMY",
             "exporter_street_number": "DUMMY",
@@ -91,6 +65,9 @@ class Consignment:
             ]
         }
 
+        print("URL good:", self._url)
+        print(self._authentication)
+
         response = requests.post(
             url=self._url,
             auth=self._authentication,
@@ -99,3 +76,26 @@ class Consignment:
 
         return response.json()
 
+    def read_consignment(self, consignment_reference: str) -> str:
+        response = requests.get(
+            url=self._url,
+            auth=self._authentication,
+            params="reference="
+                   + consignment_reference + "&fields=importer_eori"
+        )
+
+        return response.json()["result"]["importer_eori"]
+
+    def cancel_consignment(self, dec_number: str) -> dict[str, str]:
+        example_data = {
+            "op_type": "cancel",
+            "consignment_number": dec_number
+        }
+
+        response = requests.post(
+            url=self._url,
+            auth=self._authentication,
+            json=example_data
+        )
+
+        return response.json()

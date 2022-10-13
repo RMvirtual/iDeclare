@@ -15,33 +15,10 @@ class DeclarationHeader:
             + "/api/x_fhmrc_tss_api/v1/tss_api/headers"
         )
 
+        print("URL:", self._url)
+
         self._authentication = (
             self._configuration.user_name, self._configuration.password)
-
-    def read_declaration(self) -> None:
-        response = requests.get(
-            url=self._url,
-            auth=self._authentication,
-            params="reference=ENS000000000405352"
-                   + "&fields=status,arrival_port,seal_number,route,"
-                     "carrier_eori"
-        )
-
-        return response.json()
-
-    def cancel_declaration(self, ens_number: str) -> dict[str, str]:
-        example_data = {
-            "op_type": "cancel",
-            "declaration_number": ens_number
-        }
-
-        response = requests.post(
-            url=self._url,
-            auth=(self._configuration.user_name, self._configuration.password),
-            json=example_data
-        )
-
-        return response.json()
 
     def create_declaration(self) -> str:
         example_data = {
@@ -51,7 +28,7 @@ class DeclarationHeader:
             "identity_no_of_transport": "xy12345",
             "nationality_of_transport": "GB",
             "conveyance_ref": "",
-            "arrival_date_time": "13/10/2022 10:00:00",
+            "arrival_date_time": "14/10/2022 10:00:00",
             "arrival_port": "GBAUBELBELBEL",
             "place_of_loading": "Birkenhead",
             "place_of_unloading": "Belfast",
@@ -73,5 +50,33 @@ class DeclarationHeader:
             json=example_data
         )
 
+        print(self._authentication)
+
+        print(response)
+
         return response.json()["result"]["reference"]
 
+    def read_declaration(self) -> None:
+        response = requests.get(
+            url=self._url,
+            auth=self._authentication,
+            params="reference=ENS000000000405352"
+                   + "&fields=status,arrival_port,seal_number,route,"
+                     "carrier_eori"
+        )
+
+        return response.json()
+
+    def cancel_declaration(self, ens_number: str) -> dict[str, str]:
+        example_data = {
+            "op_type": "cancel",
+            "declaration_number": ens_number
+        }
+
+        response = requests.post(
+            url=self._url,
+            auth=self._authentication,
+            json=example_data
+        )
+
+        return response.json()

@@ -5,6 +5,7 @@ py_library(
     srcs = glob(["*.py"]),
     data = [
         "//config/api:credentials.json",
+        "//config/api:draft_declarations.json",
         "//config/api:environments.json",
     ],
     visibility = ["//visibility:public"],

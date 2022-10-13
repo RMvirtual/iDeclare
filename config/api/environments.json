@@ -1,4 +1,4 @@
 {
-  "TEST": "api.tsstestenv.co.uk",
-  "PROD": "api.tradersupportservice.co.uk"
+  "PROD": "api.tradersupportservice.co.uk",
+  "TEST": "api.tsstestenv.co.uk"
 }
