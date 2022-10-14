@@ -82,19 +82,19 @@ class EoriGui(wx.Frame):
 
     @property
     def text_box(self) -> str:
-        return self._text_box.GetLabelText()
+        return self._text_box.GetLabel()
 
     @text_box.setter
     def text_box(self, new_text) -> None:
-        self._text_box.SetLabelText(new_text)
+        self._text_box.SetLabel(new_text)
 
     @property
     def eori_entry_box(self) -> str:
-        return self._user_input_box.GetLabelText()
+        return self._user_input_box.GetLabel()
 
     @eori_entry_box.setter
     def eori_entry_box(self, new_text) -> None:
-        self._user_input_box.SetLabelText(new_text)
+        self._user_input_box.SetLabel(new_text)
 
     def _on_eori_box_entry(self, event: wx.Event) -> None:
         self._interface.eori_input_box_entry(self.eori_entry_box)
