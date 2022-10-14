@@ -12,7 +12,6 @@ class TssGuiController(EoriGuiInterface):
         self._gui = EoriGui(self)
 
     def exit_pressed(self, event):
-        print("Controller received exit signal.")
         self._gui.Close(True)
 
     def input_box(self, event):
