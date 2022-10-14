@@ -3,11 +3,11 @@ import wx
 
 class EoriGui(wx.Frame):
     def __init__(self, controller):
-        super().__init__(None, title='Hello World 2')
+        super().__init__(None, title="EORI Check")
         self._controller = controller
 
         panel = wx.Panel(self)
-        text = wx.StaticText(panel, label="Hello, World!")
+        text = wx.StaticText(panel, label="EORI IS VALID??")
         font = text.GetFont()
         font.PointSize += 10
         font = font.Bold()
@@ -22,17 +22,13 @@ class EoriGui(wx.Frame):
 
     def make_menu_bar(self):
         file_menu = wx.Menu()
-        # The "\t..." syntax defines an accelerator key that also triggers
-        # the same event
+
         hello_item = file_menu.Append(
             -1, "&Hello...\tCtrl-H",
             "Help string shown in status bar for this menu item"
         )
 
         file_menu.AppendSeparator()
-        # When using a stock ID we don't need to specify the menu item's
-        # label
-
         exit_item = file_menu.Append(wx.ID_EXIT)
 
         help_menu = wx.Menu()
@@ -48,15 +44,15 @@ class EoriGui(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_exit, exit_item)
         self.Bind(wx.EVT_MENU, self.on_about, about_item)
 
-    def on_exit(self, event):
+    def on_exit(self, event: wx.Event):
         self.Close(True)
 
-    def on_hello(self, event):
-        wx.MessageBox("Hello again from wxPython")
+    def on_hello(self, event: wx.Event):
+        wx.MessageBox("Sup Brah.")
 
-    def on_about(self, event):
+    def on_about(self, event: wx.Event):
         wx.MessageBox(
-            "This is a wxPython Hello World sample",
-            "About Hello World 2",
+            "Checks Importer EORI references are registered on TSS.",
+            "About EORI Checker",
             wx.OK | wx.ICON_INFORMATION
         )
