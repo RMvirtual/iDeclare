@@ -10,10 +10,15 @@ class EoriGui(wx.Frame):
 
     def _initialise_widgets(self) -> None:
         self._initialise_panel()
+        self._sizer = wx.BoxSizer(wx.VERTICAL)
+
         self._initialise_text_box()
         self._initialise_user_input_box()
         self._initialise_top_menu_bar()
         self._initialise_status_bar()
+
+        self._sizer.SetSizeHints(self._panel)
+        self._panel.SetSizer(self._sizer)
 
     def _initialise_panel(self) -> None:
         self._panel = wx.Panel(self)
@@ -24,18 +29,18 @@ class EoriGui(wx.Frame):
         font.PointSize += 10
         font = font.Bold()
         text.SetFont(font)
-        self._sizer = wx.BoxSizer(wx.VERTICAL)
-        self._sizer.Add(text, wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
+
+        self._sizer.Add(text, 4, 0, 0)
 
     def _initialise_user_input_box(self) -> None:
-        user_input_box = wx.TextCtrl(self._panel)
-        user_input_box.SetLabelText("Enter here...")
-        user_input_box.SetBackgroundColour(wx.LIGHT_GREY)
+        self._user_input_box = wx.TextCtrl(self._panel)
+        self._user_input_box.SetLabelText("Enter here...")
+        self._user_input_box.SetBackgroundColour(wx.LIGHT_GREY)
 
-        self._sizer.Add(
-            user_input_box, wx.SizerFlags().Border(wx.BOTTOM | wx.LEFT, 25))
+        self._sizer.Add(self._user_input_box, 1, 0, 0)
 
-        self.Bind(wx.EVT_TEXT, self._user_input_box_event, user_input_box)
+        self.Bind(
+            wx.EVT_TEXT, self._user_input_box_event, self._user_input_box)
 
     def _user_input_box_event(self, event: wx.Event) -> None:
         self._interface.input_box(event)
@@ -47,7 +52,9 @@ class EoriGui(wx.Frame):
     def _initialise_top_menu_bar(self):
         self._initialise_file_menu()
         self._initialise_help_menu()
+        self._initialise_parent_menu_bar()
 
+    def _initialise_parent_menu_bar(self):
         menu_bar = wx.MenuBar()
         menu_bar.Append(self._file_menu, "&File")
         menu_bar.Append(self._help_menu, "&Help")
@@ -56,6 +63,9 @@ class EoriGui(wx.Frame):
 
     def _initialise_help_menu(self):
         self._help_menu = wx.Menu()
+        self._initialise_about_menu_item()
+
+    def _initialise_about_menu_item(self) -> None:
         about_item = self._help_menu.Append(wx.ID_ABOUT)
         self.Bind(wx.EVT_MENU, self.on_about, about_item)
 
