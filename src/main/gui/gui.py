@@ -10,12 +10,13 @@ class EoriGui(wx.Frame):
 
     def _initialise_widgets(self) -> None:
         self._initialise_panel()
+        self._initialise_text_box()
+        self._initialise_user_input_box()
         self._initialise_top_menu_bar()
         self._initialise_status_bar()
 
     def _initialise_panel(self) -> None:
         self._panel = wx.Panel(self)
-        self._initialise_text_box()
 
     def _initialise_text_box(self) -> None:
         text = wx.StaticText(self._panel, label="EORI IS VALID??")
@@ -23,8 +24,21 @@ class EoriGui(wx.Frame):
         font.PointSize += 10
         font = font.Bold()
         text.SetFont(font)
-        sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(text, wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
+        self._sizer = wx.BoxSizer(wx.VERTICAL)
+        self._sizer.Add(text, wx.SizerFlags().Border(wx.TOP | wx.LEFT, 25))
+
+    def _initialise_user_input_box(self) -> None:
+        user_input_box = wx.TextCtrl(self._panel)
+        user_input_box.SetLabelText("Enter here...")
+        user_input_box.SetBackgroundColour(wx.LIGHT_GREY)
+
+        self._sizer.Add(
+            user_input_box, wx.SizerFlags().Border(wx.BOTTOM | wx.LEFT, 25))
+
+        self.Bind(wx.EVT_TEXT, self._user_input_box_event, user_input_box)
+
+    def _user_input_box_event(self, event: wx.Event) -> None:
+        self._interface.input_box(event)
 
     def _initialise_status_bar(self) -> None:
         self.CreateStatusBar()
