@@ -1,11 +1,21 @@
-load("@rules_python//python:defs.bzl", "py_library")
+load("@rules_python//python:defs.bzl", "py_binary")
 
 py_binary(
-    name = "main",
+    name = "cli",
     srcs = glob(["*.py"]),
     data = [],
     visibility = ["//visibility:public"],
     deps = [
-        "//src/main/tss"
+        "//src/main/app/controllers",
+    ],
+)
+
+py_binary(
+    name = "gui",
+    srcs = glob(["*.py"]),
+    data = [],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//src/main/app/controllers",
     ],
 )

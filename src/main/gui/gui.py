@@ -1,10 +1,11 @@
 import wx
+from src.main.gui.interface import EoriGuiInterface
 
 
 class EoriGui(wx.Frame):
-    def __init__(self, controller):
+    def __init__(self, interface: EoriGuiInterface):
         super().__init__(None, title="EORI Check")
-        self._controller = controller
+        self._interface = interface
 
         panel = wx.Panel(self)
         text = wx.StaticText(panel, label="EORI IS VALID??")
@@ -45,7 +46,8 @@ class EoriGui(wx.Frame):
         self.Bind(wx.EVT_MENU, self.on_about, about_item)
 
     def on_exit(self, event: wx.Event):
-        self.Close(True)
+        self._interface.exit_pressed(event)
+
 
     def on_hello(self, event: wx.Event):
         wx.MessageBox("Sup Brah.")

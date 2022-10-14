@@ -1,4 +1,4 @@
 cls
 @echo off
-bazel run //src/main/app:main
+bazel run //src/main/app:gui
 @echo on

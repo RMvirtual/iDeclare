@@ -3,7 +3,7 @@ from src.main.tss.api.model import TssApi
 from src.main.tss.api.environment.environments import ApiEnvironment
 
 
-def eori_checker(environment: ApiEnvironment):
+def command_line_interface(environment: ApiEnvironment):
     api = TssApi(environment)
     should_exit = None
 
