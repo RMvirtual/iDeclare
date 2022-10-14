@@ -30,14 +30,14 @@ class EoriGui(wx.Frame):
         font = font.Bold()
         text.SetFont(font)
 
-        self._sizer.Add(text, 4, 0, 0)
+        self._sizer.Add(text, 4, wx.EXPAND, 0)
 
     def _initialise_user_input_box(self) -> None:
         self._user_input_box = wx.TextCtrl(self._panel)
         self._user_input_box.SetLabelText("Enter here...")
         self._user_input_box.SetBackgroundColour(wx.LIGHT_GREY)
 
-        self._sizer.Add(self._user_input_box, 1, 0, 0)
+        self._sizer.Add(self._user_input_box, 1, wx.EXPAND, 0)
 
         self.Bind(
             wx.EVT_TEXT, self._user_input_box_event, self._user_input_box)
