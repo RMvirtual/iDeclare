@@ -1,3 +1,4 @@
+import re
 import wx
 from src.main.tss.api.model import TssApi
 from src.main.tss.api.environment.environments import ApiEnvironment
@@ -14,9 +15,28 @@ class TssGuiController(EoriGuiInterface):
     def exit_pressed(self, event):
         self._gui.Close(True)
 
-    def eori_input_box_entry(self, event):
-        print("ITE....")
+    def eori_input_box_entry(self, text):
+        is_valid_format = False
+
+        if self._is_valid_gb_eori_format(text):
+            is_valid_format = self._api.is_eori_valid(text)
+
+        if is_valid_format:
+            is_tss_registered = self._api.is_eori_valid(text)
+
+            if is_tss_registered:
+                self._gui.text_box = "EORI NO is TSS registered."
+
+            else:
+                self._gui.text_box = "NOT REGISTERED."
+
+        else:
+            self._gui.text_box = (
+                "INVALID EORI FORMAT (must be GB followed by 12 digits).")
 
     def run(self):
         self._gui.Show()
         self._app.MainLoop()
+
+    def _is_valid_gb_eori_format(self, eori_no):
+        return bool(re.fullmatch(r"GB\d{12}", eori_no))

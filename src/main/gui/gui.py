@@ -24,13 +24,13 @@ class EoriGui(wx.Frame):
         self._panel = wx.Panel(self)
 
     def _initialise_text_box(self) -> None:
-        text = wx.StaticText(self._panel, label="EORI IS VALID??")
-        font = text.GetFont()
-        font.PointSize += 10
+        self._text_box = wx.StaticText(self._panel, label="EORI IS VALID??")
+        font = self._text_box.GetFont()
+        font.PointSize += 2
         font = font.Bold()
-        text.SetFont(font)
+        self._text_box.SetFont(font)
 
-        self._sizer.Add(text, 4, wx.EXPAND, 10)
+        self._sizer.Add(self._text_box, 4, wx.EXPAND, 10)
 
     def _initialise_user_input_box(self) -> None:
         self._user_input_box = wx.TextCtrl(self._panel)
@@ -80,8 +80,24 @@ class EoriGui(wx.Frame):
         self.Bind(wx.EVT_MENU, self._on_hello_menu_item, hello_item)
         self.Bind(wx.EVT_MENU, self._on_exit_menu_item, exit_item)
 
+    @property
+    def text_box(self) -> str:
+        return self._text_box.GetLabelText()
+
+    @text_box.setter
+    def text_box(self, new_text) -> None:
+        self._text_box.SetLabelText(new_text)
+
+    @property
+    def eori_entry_box(self) -> str:
+        return self._user_input_box.GetLabelText()
+
+    @eori_entry_box.setter
+    def eori_entry_box(self, new_text) -> None:
+        self._user_input_box.SetLabelText(new_text)
+
     def _on_eori_box_entry(self, event: wx.Event) -> None:
-        self._interface.eori_input_box_entry(event)
+        self._interface.eori_input_box_entry(self.eori_entry_box)
 
     def _on_exit_menu_item(self, event: wx.Event):
         self._interface.exit_pressed(event)
