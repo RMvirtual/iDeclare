@@ -14,7 +14,7 @@ class TssGuiController(EoriGuiInterface):
     def exit_pressed(self, event):
         self._gui.Close(True)
 
-    def input_box(self, event):
+    def eori_input_box_entry(self, event):
         print("ITE....")
 
     def run(self):

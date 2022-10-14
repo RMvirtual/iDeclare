@@ -7,8 +7,8 @@ class EoriGuiInterface(metaclass=abc.ABCMeta):
         return (all((
             hasattr(subclass, "exit_pressed"),
             callable(subclass.exit_pressed),
-            hasattr(subclass, "input_box"),
-            callable(subclass.input_box)
+            hasattr(subclass, "eori_input_box_entry"),
+            callable(subclass.eori_input_box_entry)
         )) or NotImplemented)
 
     @abc.abstractmethod
@@ -16,6 +16,6 @@ class EoriGuiInterface(metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def input_box(self, event):
+    def eori_input_box_entry(self, event):
         raise NotImplementedError
 

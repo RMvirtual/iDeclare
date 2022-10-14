@@ -30,20 +30,17 @@ class EoriGui(wx.Frame):
         font = font.Bold()
         text.SetFont(font)
 
-        self._sizer.Add(text, 4, wx.EXPAND, 0)
+        self._sizer.Add(text, 4, wx.EXPAND, 10)
 
     def _initialise_user_input_box(self) -> None:
         self._user_input_box = wx.TextCtrl(self._panel)
         self._user_input_box.SetLabelText("Enter here...")
         self._user_input_box.SetBackgroundColour(wx.LIGHT_GREY)
 
-        self._sizer.Add(self._user_input_box, 1, wx.EXPAND, 0)
+        self._sizer.Add(self._user_input_box, 1, wx.EXPAND, 10)
 
         self.Bind(
-            wx.EVT_TEXT, self._user_input_box_event, self._user_input_box)
-
-    def _user_input_box_event(self, event: wx.Event) -> None:
-        self._interface.input_box(event)
+            wx.EVT_TEXT, self._on_eori_box_entry, self._user_input_box)
 
     def _initialise_status_bar(self) -> None:
         self.CreateStatusBar()
@@ -67,7 +64,7 @@ class EoriGui(wx.Frame):
 
     def _initialise_about_menu_item(self) -> None:
         about_item = self._help_menu.Append(wx.ID_ABOUT)
-        self.Bind(wx.EVT_MENU, self.on_about, about_item)
+        self.Bind(wx.EVT_MENU, self._on_about_menu_item, about_item)
 
     def _initialise_file_menu(self) -> None:
         self._file_menu = wx.Menu()
@@ -80,16 +77,19 @@ class EoriGui(wx.Frame):
         self._file_menu.AppendSeparator()
         exit_item = self._file_menu.Append(wx.ID_EXIT)
 
-        self.Bind(wx.EVT_MENU, self.on_hello, hello_item)
-        self.Bind(wx.EVT_MENU, self.on_exit, exit_item)
+        self.Bind(wx.EVT_MENU, self._on_hello_menu_item, hello_item)
+        self.Bind(wx.EVT_MENU, self._on_exit_menu_item, exit_item)
 
-    def on_exit(self, event: wx.Event):
+    def _on_eori_box_entry(self, event: wx.Event) -> None:
+        self._interface.eori_input_box_entry(event)
+
+    def _on_exit_menu_item(self, event: wx.Event):
         self._interface.exit_pressed(event)
 
-    def on_hello(self, event: wx.Event):
+    def _on_hello_menu_item(self, event: wx.Event):
         wx.MessageBox("Sup Brah.")
 
-    def on_about(self, event: wx.Event):
+    def _on_about_menu_item(self, event: wx.Event):
         wx.MessageBox(
             "Checks Importer EORI references are registered on TSS.",
             "About EORI Checker",
