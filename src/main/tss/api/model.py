@@ -23,7 +23,6 @@ class TssApi:
         if success:
             dec_number = report["result"]["reference"]
             api_call.cancel(dec_number)
-            print("Cancelling DEC Number:", dec_number)
 
         return success
 
@@ -31,14 +30,9 @@ class TssApi:
         api_call = DeclarationHeaderApiCall(self._configuration)
         draft_ens_no = self._configuration.draft_declaration
 
-        if api_call.is_ens_no_draft(draft_ens_no):
-            print("Old draft found of:", draft_ens_no)
-
-        else:
+        if not api_call.is_ens_no_draft(draft_ens_no):
             draft_ens_no = self._create_new_draft(api_call)
-            print("Have made new draft:", draft_ens_no)
 
-            # Update draft json file to look at that consignment too.
             if re.fullmatch(r"ENS\d{15}", draft_ens_no):
                 self._configuration.update_draft(draft_ens_no)
 

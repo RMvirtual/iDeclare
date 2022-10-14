@@ -16,8 +16,6 @@ class TssGuiController(EoriGuiInterface):
         self._gui.Close(True)
 
     def eori_input_box_entry(self, text):
-        print("Text received:", text)
-
         if self._is_valid_gb_eori_format(text):
             if self._api.is_eori_valid(text):
                 self._gui.text_box = "EORI NO is TSS registered."
